@@ -52,16 +52,27 @@ namespace CastleGrimtol.Project
     public void Play()
     {
       Setup();
-      System.Console.WriteLine("Are you Sam or Dean?");
-      string name = Console.ReadLine();
-      CurrentPlayer = new Player(name);
-      Look();
+      CheckUserName();
       while (Playing)
       {
         GetUserInput();
       }
     }
-
+    public void CheckUserName()
+    {
+      System.Console.WriteLine("Are you Sam or Dean?");
+      string name = Console.ReadLine().ToLower();
+      if (name == "sam" || name == "peaches" || name == "dean")
+      {
+        CurrentPlayer = new Player(name);
+        Look();
+      }
+      else
+      {
+        System.Console.WriteLine("Invalid option.");
+        CheckUserName();
+      }
+    }
     public void GetUserInput()
     {
       System.Console.WriteLine($"What do you choose to do {CurrentPlayer.PlayerName}?");
