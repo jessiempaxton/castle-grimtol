@@ -19,7 +19,6 @@ namespace CastleGrimtol.Project.Models
         return Exits[dir];
       }
       Console.WriteLine($"Wrong way- {Description}");
-
       return this;
     }
 

@@ -9,21 +9,62 @@ namespace CastleGrimtol.Project
   {
     private string begin;
 
-    public GameService(string begin)
+    public GameService()  //what to use constructor for?
     {
-      this.begin = begin;
+
     }
 
     public Room CurrentRoom { get; set; }
     public Player CurrentPlayer { get; set; }
     public bool Playing { get; set; } = true;
 
+    public void StartGame()
+    {
+      Console.Clear();
+      System.Console.WriteLine(@"Welcome to the game
+   _____ _    _ _____  ______ _____  _   _       _______ _    _ _____            _      
+  / ____| |  | |  __ \|  ____|  __ \| \ | |   /\|__   __| |  | |  __ \     /\   | |     
+ | (___ | |  | | |__) | |__  | |__) |  \| |  /  \  | |  | |  | | |__) |   /  \  | |     
+  \___ \| |  | |  ___/|  __| |  _  /| . ` | / /\ \ | |  | |  | |  _  /   / /\ \ | |     
+  ____) | |__| | |    | |____| | \ \| |\  |/ ____ \| |  | |__| | | \ \  / ____ \| |____ 
+ |_____/ \____/|_|    |______|_|  \_\_| \_/_/    \_\_|   \____/|_|  \_\/_/    \_\______|
+                                                                                        
+                                                                                        
+      Please press enter to continue.");
+      string begin = Console.ReadLine();
+      if (begin != null)
+      {
+        CheckUserName();
+        Setup();
+        Look();
+      }
+      while (Playing)
+      {
+        GetUserInput();
+      }
+    }
+    public void CheckUserName()
+    {
+      System.Console.WriteLine("Are you Sam or Dean?");
+      string name = Console.ReadLine().ToLower();
+      if (name == "sam" || name == "dean" || name == "peaches")
+      {
+        name = name[0].ToString().ToUpper() + name.Substring(1);
+        CurrentPlayer = new Player(name);
+      }
+      else
+      {
+        System.Console.WriteLine("Invalid option.");
+        CheckUserName();
+      }
+    }
+
     public void Setup()
     {
       //Rooms
-      Room room1 = new Room("Room1", $"You wake up to your cell phone ringing in your pocket. You answer.  \n \n \"It's Bobby!  You boys sure got yourselves into a mess this time.  You idjits gotta get out of there NOW!\" \n \n You look next to you and see your brother unconcious on the floor. Someone starts jiggling the door handle. There is another door to the east.");
-      Room room2 = new Room("Room2", "You run along side your brother out of the first room into another one.  This room is dark.  You both start feeling around the counters and find a flashlight.");
-      Room room3 = new Room("Room3", "description");
+      Room room1 = new Room("Room1", $"You wake up to your cell phone ringing in your pocket. You answer.  \n \n \"{CurrentPlayer.PlayerName}, it's Bobby!  You boys sure got yourselves into a mess this time.  You idjits gotta get out of there NOW!\" \n \n You look next to you and see your brother unconscious on the floor. Someone starts jiggling the door handle. You remember you two had just gotten done fighting a pack of black eyed demons.  You are wounded.  There is another door to the east.  *Enter help at any time to view your options*");
+      Room room2 = new Room("Room2", "You run along side your brother out of the first room into the next.  You find your demon killing knife on the floor.  The demon chasing you seems to have left.  There is another door to the east.  *Enter help at any time to view your options*");
+      Room room3 = new Room("Room3", "You walk in to face one of the demons that was chasing you. You see a door to the east but the demon is standing in the way.  He lunges at you- time to FIGHT!  *Enter help at any time to view your options*");
       Room room4 = new Room("Room4", "description");
 
       //Items- ONE item that is both usable and takeable(take knife, use knife satifies this requirement)
@@ -42,37 +83,13 @@ namespace CastleGrimtol.Project
 
       //Add items to rooms
       room1.Items.Add(brother);
-      room2.Items.Add(flashlight);
-      room3.Items.Add(key);
-      room4.Items.Add(knife);
+      room2.Items.Add(knife);
+      //   room3.Items.Add(flashlight);
+      room4.Items.Add(key);
 
       CurrentRoom = room1;
     }
 
-    public void Play()
-    {
-      Setup();
-      CheckUserName();
-      while (Playing)
-      {
-        GetUserInput();
-      }
-    }
-    public void CheckUserName()
-    {
-      System.Console.WriteLine("Are you Sam or Dean?");
-      string name = Console.ReadLine().ToLower();
-      if (name == "sam" || name == "peaches" || name == "dean")
-      {
-        CurrentPlayer = new Player(name);
-        Look();
-      }
-      else
-      {
-        System.Console.WriteLine("Invalid option.");
-        CheckUserName();
-      }
-    }
     public void GetUserInput()
     {
       System.Console.WriteLine($"What do you choose to do {CurrentPlayer.PlayerName}?");
@@ -95,6 +112,7 @@ namespace CastleGrimtol.Project
           UseItem(option);
           break;
         case "go":
+          // if(CurrentRoom.Name == "Room2" && !CurrentPlayer.Inventory.Contains("brother"))
           Go(option);
           Look();
           break;
@@ -106,6 +124,9 @@ namespace CastleGrimtol.Project
           break;
         case "inventory":
           Inventory();
+          break;
+        case "help":
+          Help();
           break;
         default:
           System.Console.WriteLine("Invalid entry.");
@@ -125,10 +146,9 @@ namespace CastleGrimtol.Project
       }
     }
 
-
     public void Help()
     {
-      System.Console.WriteLine("Your choices are Look, Quit, Use, Go, Take, and Reset.");
+      System.Console.WriteLine("Your choices are Look, Use, Go, Take, Reset, Quit, and Inventory.");
       GetUserInput();
     }
 
@@ -156,12 +176,7 @@ namespace CastleGrimtol.Project
     public void Reset()
     {
       Console.Clear();
-      Setup();
-    }
-
-    public void StartGame() //????
-    {
-      Playing = true;
+      StartGame();
     }
 
     public void TakeItem(string itemName)
@@ -181,16 +196,16 @@ namespace CastleGrimtol.Project
 
     public void UseItem(string itemName)
     {
-      Item newItem = CurrentPlayer.Inventory.Find(item => item.Name == itemName);
-      if (newItem == null)
+      System.Console.WriteLine($"use {itemName}");
+      Item item = CurrentPlayer.Inventory.Find(i => i.Name.ToLower() == itemName.ToLower());
+      if (item == null)
       {
         System.Console.WriteLine("Invalid option.");
       }
-      else
+      else if (CurrentRoom.Name == "Room3" && item.Name.ToLower() == "knife")
       {
-        CurrentPlayer.Inventory.Add(newItem);
-        CurrentRoom.Items.Remove(newItem);
-        Inventory();
+        CurrentPlayer.Inventory.Remove(item);
+        System.Console.WriteLine("You stab the demon with your demon killing knife and destroy it.");
       }
     }
   }
