@@ -12,8 +12,10 @@ Stretch Goal: If you do not take the knife you die if you go east because a demo
 
 Room 3- You walk in to face one of the demons that was chasing you. You see a door to the east but the demon is standing in the way.  He lunges at you- time to FIGHT! *Enter help at any time to view your options*
 
+*use knife “Room 3- The demon is dead on the floor- you can now go around it.” 
+*take knife *go east
+
 Stretch Goal: If you do not take knife you die if you east because there are more demons waiting. 
-*use knife *take knife *go east
 
 Room 4- Running around the dead demon, you two enter the next room only to find TWO demons waiting for you ready to fight. You see Baby’s keys laying on the floor next to a door to the east. There’s no way you can fight off both demons alone… *Enter help at any time to view your options*
 
