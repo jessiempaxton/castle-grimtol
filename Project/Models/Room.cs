@@ -21,13 +21,17 @@ namespace CastleGrimtol.Project.Models
       Console.WriteLine($"Wrong way- {Description}");
       return this;
     }
-
     //return item- double check this!
-    // public IRoom ReturnItem(string item)
+    // ??? 9. Create a similar method on the room for returning Items if the user used the 'take' action.
+    // public IRoom ReturnItem(string itm)
     // {
-    //   Items.Add(item); 
+    //   Item item = Items.Find(i => i.Name.ToLower() == itm.ToLower());
+    //   if (item == null)
+    //   {
+    //     System.Console.WriteLine("Invalid option.");
+    //   }
+    //   else
     // }
-
     public Room(string name, string description)
     {
       Name = name;
