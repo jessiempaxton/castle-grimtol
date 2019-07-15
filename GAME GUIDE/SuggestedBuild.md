@@ -12,7 +12,7 @@
 <!-- 6. Create your items & add them to the Items list within the room they belong to. -->
 <!-- 7. At the end of setup be sure to set the CurrentRoom to whichever room the player should start in. -->
 <!-- 8. On the room class create a method to handle changing rooms. This method should return a room if one was found at that exit. -->
-??? 9. Create a similar method on the room for returning Items if the user used the 'take' action.
+<!-- 9. Create a similar method on the room for returning Items if the user used the 'take' action. -->
 <!-- 10. Back in the Game class, create methods for:
     - Look (returns the current room description)
     -  Quit (changes a global 'playing' variable to false)

@@ -151,7 +151,7 @@ namespace CastleGrimtol.Project
     {
       if (CurrentRoom.Exits.ContainsKey(direction))
       {
-        CurrentRoom = (Room)CurrentRoom.Go(direction);
+        CurrentRoom = (Room)CurrentRoom.Go(direction); //casting
         // if(CurrentRoom.Name == "Room 2" && CurrentPlayer.Inventory(!= brother)
       }
       // else if (CurrentRoom.Name == "Room 2" && CurrentPlayer.Inventory.Contains("brother"))
@@ -200,7 +200,7 @@ namespace CastleGrimtol.Project
 
     public void TakeItem(string itemName)
     {
-      // if (CurrentRoom.Items.Contains(itemName))
+      // if (CurrentRoom.Items.Contains(itemName)){ }
       Item item = CurrentRoom.Items.Find(i => i.Name.ToLower() == itemName.ToLower());
       if (item == null)
       {
@@ -213,10 +213,8 @@ namespace CastleGrimtol.Project
         System.Console.WriteLine($"{itemName} has been added to your inventory.");
       }
     }
-
     public void UseItem(string itemName)
     {
-      //   System.Console.WriteLine($"use {itemName}");
       Item item = CurrentPlayer.Inventory.Find(i => i.Name.ToLower() == itemName.ToLower());
       if (item == null)
       {
@@ -224,8 +222,9 @@ namespace CastleGrimtol.Project
       }
       else if (CurrentRoom.Name == "Room 3" && item.Name.ToLower() == "knife")
       {
-        CurrentPlayer.Inventory.Remove(item);
-        System.Console.WriteLine("You stab the demon with your demon killing knife and destroy it.  Don't forget to take your knife with you again.");
+        // CurrentPlayer.Inventory.Remove(item);
+        CurrentRoom.UseItem(itemName);
+        // System.Console.WriteLine("You stab the demon with your demon killing knife and destroy it.  Don't forget to take your knife with you again.");
       }
       else if (CurrentRoom.Name == "Room 4" && item.Name.ToLower() == "brother")
       {
