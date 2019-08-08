@@ -116,8 +116,8 @@ namespace CastleGrimtol.Project
           UseItem(option);
           break;
         case "go":
+          CheckLose(option);
           Go(option);
-          // CheckLose();
           Look();
           break;
         case "take":
@@ -141,7 +141,7 @@ namespace CastleGrimtol.Project
         case "meow":
           if (CurrentPlayer.PlayerName.ToLower() != "peaches")
           {
-            System.Console.WriteLine("Uh What?");
+            System.Console.WriteLine("What..?");
             break;
           }
           PeachesCheats();
@@ -151,22 +151,6 @@ namespace CastleGrimtol.Project
           break;
       }
     }
-
-    // private void CheckLose(string option = "")
-    // {
-    //   if (CurrentRoom.Name == "Room 2")
-    //   {
-    //     var brother = CurrentPlayer.Inventory.Find(i => i.Name == "Brother");
-    //     if (brother == null)
-    //     {
-    //       Lose("brother");
-    //     }
-    //   }
-    //   if (option == "crowbar")
-    //   {
-
-    //   }
-    // }
 
     private void PeachesCheats()
     {
@@ -214,7 +198,6 @@ namespace CastleGrimtol.Project
 
     public void TakeItem(string itemName)
     {
-      // if (CurrentRoom.Items.Contains(itemName)){ }
       Item item = CurrentRoom.Items.Find(i => i.Name.ToLower() == itemName.ToLower());
       if (item == null)
       {
@@ -258,7 +241,7 @@ namespace CastleGrimtol.Project
       }
       else
       {
-        Lose();
+        Lose("default");
       }
     }
     public void Win()
@@ -279,19 +262,25 @@ namespace CastleGrimtol.Project
       ");
     }
 
-    public void Lose()
+    private void CheckLose(string option = "")
     {
-      // string reason
-      // switch (reason)
-      // {
-      //   case "brother":
-      //     // print brother death
-      //     Console.Clear();
-      //     System.Console.WriteLine("You cannot survive without your brother, you died.");
-      //     break;
-      // }
-      Console.Clear();
-      System.Console.WriteLine(@"
+      if (CurrentRoom.Name == "Room 2")
+      {
+        var brother = CurrentPlayer.Inventory.Find(i => i.Name == "brother");
+        if (brother == null)
+        {
+          Lose("brother");
+        }
+      }
+    }
+
+    public void Lose(string reason)
+    {
+      switch (reason)
+      {
+        case "default":
+          Console.Clear();
+          System.Console.WriteLine(@"
  __     ______  _    _   _____ _____ ______ _____  
  \ \   / / __ \| |  | | |  __ \_   _|  ____|  __ \ 
   \ \_/ / |  | | |  | | | |  | || | | |__  | |  | |
@@ -311,8 +300,16 @@ namespace CastleGrimtol.Project
              __/ |         __/ |                   
             |___/         |___/                    
 *Please enter yes or no*");
-      GetUserInput();
-
+          GetUserInput();
+          break;
+      }
+      switch (reason)
+      {
+        case "brother":
+          Console.Clear();
+          System.Console.WriteLine("You cannot survive without your brother, you died.");
+          break;
+      }
     }
   }
 }
