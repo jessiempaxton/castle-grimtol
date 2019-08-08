@@ -68,7 +68,7 @@ namespace CastleGrimtol.Project
       Room room4 = new Room("Room 4", "Running around the dead demon, you two enter the next room only to find TWO more demons waiting for you ready to fight. You see Baby’s keys laying on the floor next to a door to the east. There’s no way you can fight off both demons alone… *Enter help at any time to view your options*");
       Room room5 = new Room("Outside", "This door takes you outside to where Baby is parked.  There's one final demon to destroy. *Enter help at any time to view your options*");
 
-      //Items- ONE item that is both usable and takeable(take knife, use knife satifies this requirement)
+      //Items
       Item brother = new Item("Brother", "You guys fight all the time and it's super annoying but you probably need him.");
       Item knife = new Item("Knife", "Demon killing blade.");
       Item keys = new Item("Keys", "Baby's keys.");
@@ -112,15 +112,12 @@ namespace CastleGrimtol.Project
           Quit();
           break;
         case "use":
+          // CheckLose(option);
           UseItem(option);
           break;
         case "go":
-          // if(CurrentRoom.Name == "Room 2" && CurrentPlayer.Inventory
-          // {
-          //     Lose();
-          //   }
-          //   else
           Go(option);
+          // CheckLose();
           Look();
           break;
         case "take":
@@ -141,27 +138,44 @@ namespace CastleGrimtol.Project
         case "no":
           Quit();
           break;
+        case "meow":
+          if (CurrentPlayer.PlayerName.ToLower() != "peaches")
+          {
+            System.Console.WriteLine("Uh What?");
+            break;
+          }
+          PeachesCheats();
+          break;
         default:
           System.Console.WriteLine("Invalid entry.");
           break;
       }
     }
 
+    // private void CheckLose(string option = "")
+    // {
+    //   if (CurrentRoom.Name == "Room 2")
+    //   {
+    //     var brother = CurrentPlayer.Inventory.Find(i => i.Name == "Brother");
+    //     if (brother == null)
+    //     {
+    //       Lose("brother");
+    //     }
+    //   }
+    //   if (option == "crowbar")
+    //   {
+
+    //   }
+    // }
+
+    private void PeachesCheats()
+    {
+      Win();
+    }
+
     public void Go(string direction)
     {
-      if (CurrentRoom.Exits.ContainsKey(direction))
-      {
-        CurrentRoom = (Room)CurrentRoom.Go(direction); //casting
-        // if(CurrentRoom.Name == "Room 2" && CurrentPlayer.Inventory(!= brother)
-      }
-      // else if (CurrentRoom.Name == "Room 2" && CurrentPlayer.Inventory.Contains("brother"))
-      // {
-      //   Lose();
-      // }
-      else
-      {
-        System.Console.WriteLine("Invalid option.");
-      }
+      CurrentRoom = (Room)CurrentRoom.Go(direction); //casting
     }
 
     public void Help()
@@ -267,6 +281,15 @@ namespace CastleGrimtol.Project
 
     public void Lose()
     {
+      // string reason
+      // switch (reason)
+      // {
+      //   case "brother":
+      //     // print brother death
+      //     Console.Clear();
+      //     System.Console.WriteLine("You cannot survive without your brother, you died.");
+      //     break;
+      // }
       Console.Clear();
       System.Console.WriteLine(@"
  __     ______  _    _   _____ _____ ______ _____  
@@ -289,6 +312,7 @@ namespace CastleGrimtol.Project
             |___/         |___/                    
 *Please enter yes or no*");
       GetUserInput();
+
     }
   }
 }

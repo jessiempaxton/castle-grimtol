@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using CastleGrimtol.Project.Interfaces;
 
 namespace CastleGrimtol.Project.Models
@@ -18,7 +19,10 @@ namespace CastleGrimtol.Project.Models
       {
         return Exits[dir];
       }
-      Console.WriteLine($"Wrong way- {Description}");
+      Console.WriteLine($@"[]
+      
+      You cant go that way");
+      Thread.Sleep(1000);
       return this;
     }
 
